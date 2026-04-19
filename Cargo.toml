@@ -1,8 +1,8 @@
 [package]
 name = "celestial_service_ipc"
-version = "2.2.0"
+version = "1.0.0"
 edition = "2024"
-authors = ["Tunglies"]
+authors = ["Tunglies", "fork -> piuspp"]
 license = "GPL-3.0"
 
 [lib]
