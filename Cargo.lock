@@ -76,6 +76,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "celestial_service_ipc"
+version = "2.2.0"
+dependencies = [
+ "anyhow",
+ "clash_verge_logger",
+ "compact_str",
+ "flexi_logger",
+ "http",
+ "kode-bridge",
+ "libc",
+ "log",
+ "nix",
+ "once_cell",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "strum",
+ "strum_macros",
+ "tokio",
+ "tracing",
+ "tracing-log",
+ "tracing-subscriber",
+ "windows-service",
+]
+
+[[package]]
 name = "cfg-if"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -108,32 +134,6 @@ dependencies = [
  "flexi_logger",
  "log",
  "tokio",
-]
-
-[[package]]
-name = "clash_verge_service_ipc"
-version = "2.2.0"
-dependencies = [
- "anyhow",
- "clash_verge_logger",
- "compact_str",
- "flexi_logger",
- "http",
- "kode-bridge",
- "libc",
- "log",
- "nix",
- "once_cell",
- "serde",
- "serde_json",
- "serial_test",
- "strum",
- "strum_macros",
- "tokio",
- "tracing",
- "tracing-log",
- "tracing-subscriber",
- "windows-service",
 ]
 
 [[package]]

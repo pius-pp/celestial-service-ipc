@@ -3,7 +3,7 @@ mod common;
 #[cfg(test)]
 mod tests {
     use anyhow::Result;
-    use clash_verge_service_ipc::{
+    use celestial_service_ipc::{
         ClashConfig, CoreConfig, connect, run_ipc_server, start_clash, stop_ipc_server,
     };
     use std::sync::OnceLock;
@@ -61,11 +61,11 @@ mod tests {
         let bin_path = bin_path();
 
         if bin_path.exists() {
-            info!("✅ Found mock binary at {:?}", bin_path);
+            info!("вњ… Found mock binary at {:?}", bin_path);
             return Ok(());
         }
 
-        info!("🛠 mock binary not found, building...");
+        info!("рџ›  mock binary not found, building...");
         let status = Command::new("cargo")
             .arg("build")
             .arg("--features")
@@ -75,7 +75,7 @@ mod tests {
         assert!(status.success(), "cargo build failed");
         assert!(bin_path.exists(), "binary not found after build");
 
-        info!("✅ Built mock binary at {:?}", bin_path);
+        info!("вњ… Built mock binary at {:?}", bin_path);
         Ok(())
     }
 
@@ -85,7 +85,7 @@ mod tests {
             connect().await.is_err(),
             "Connecting when server not running should fail"
         );
-        info!("✅ IPC connect failed as expected (server not running)");
+        info!("вњ… IPC connect failed as expected (server not running)");
     }
 
     async fn step_start_ipc_server() {
@@ -99,7 +99,7 @@ mod tests {
             connect().await.is_ok(),
             "Should connect after server starts"
         );
-        info!("✅ IPC server started and connectable");
+        info!("вњ… IPC server started and connectable");
 
         handle.abort();
     }
@@ -109,7 +109,7 @@ mod tests {
             connect().await.is_ok(),
             "Should connect to IPC after server start"
         );
-        info!("✅ IPC connection works after server start");
+        info!("вњ… IPC connection works after server start");
     }
 
     async fn step_start_mock_binary() {
@@ -125,12 +125,11 @@ mod tests {
             start_result.is_ok(),
             "Starting clash with mock binary should return Ok"
         );
-        info!("✅ mock binary started successfully");
+        info!("вњ… mock binary started successfully");
     }
 
     #[tokio::test]
     async fn test_full_ipc_flow() -> Result<()> {
-        // 在测试最开始初始化 tracing（只会初始化一次）
         common::init_tracing_for_tests();
 
         info!("==== Step 1: Ensure mock binary ====");
@@ -154,10 +153,10 @@ mod tests {
                 "Mock binary should be running (iteration {})",
                 i
             );
-            info!("✅ mock binary running (iteration {})", i);
+            info!("вњ… mock binary running (iteration {})", i);
         }
 
-        info!("🎉 All IPC flow steps passed!");
+        info!("рџЋ‰ All IPC flow steps passed!");
         Ok(())
     }
 }

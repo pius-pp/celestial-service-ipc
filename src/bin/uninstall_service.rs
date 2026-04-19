@@ -13,14 +13,10 @@ fn main() -> Result<(), Error> {
     let debug = env::args().any(|arg| arg == "--debug");
 
     let _ = uninstall_old_service();
-    // 定义路径
     let bundle_path =
-        "/Library/PrivilegedHelperTools/io.github.clash-verge-rev.clash-verge-rev.service.bundle";
-    let plist_file =
-        "/Library/LaunchDaemons/io.github.clash-verge-rev.clash-verge-rev.service.plist";
-    let service_id = "io.github.clash-verge-rev.clash-verge-rev.service";
-
-    // 停止并卸载服务
+        "/Library/PrivilegedHelperTools/io.github.pius-pp.celestial-service.service.bundle";
+    let plist_file = "/Library/LaunchDaemons/io.github.pius-pp.celestial-service.service.plist";
+    let service_id = "io.github.pius-pp.celestial-service.service";
     let _ = run_command("launchctl", &["stop", service_id], debug);
     let _ = run_command(
         "launchctl",
@@ -28,14 +24,10 @@ fn main() -> Result<(), Error> {
         debug,
     );
     let _ = run_command("launchctl", &["bootout", "system", plist_file], debug);
-
-    // 删除文件
     if Path::new(plist_file).exists() {
         std::fs::remove_file(plist_file)
             .map_err(|e| anyhow::anyhow!("Failed to remove plist file: {}", e))?;
     }
-
-    // 删除整个 bundle 目录
     if Path::new(bundle_path).exists() {
         std::fs::remove_dir_all(bundle_path)
             .map_err(|e| anyhow::anyhow!("Failed to remove bundle directory: {}", e))?;
@@ -46,7 +38,7 @@ fn main() -> Result<(), Error> {
 
 #[cfg(target_os = "linux")]
 fn main() -> Result<(), Error> {
-    const SERVICE_NAME: &str = "clash-verge-service";
+    const SERVICE_NAME: &str = "celestial-service";
     use std::env;
 
     let debug = env::args().any(|arg| arg == "--debug");
@@ -89,7 +81,7 @@ fn main() -> anyhow::Result<()> {
     let service_manager = ServiceManager::local_computer(None::<&str>, manager_access)?;
 
     let service_access = ServiceAccess::QUERY_STATUS | ServiceAccess::STOP | ServiceAccess::DELETE;
-    let service = service_manager.open_service("clash_verge_service", service_access)?;
+    let service = service_manager.open_service("celestial_service", service_access)?;
 
     let service_status = service.query_status()?;
     if service_status.current_state != ServiceState::Stopped {

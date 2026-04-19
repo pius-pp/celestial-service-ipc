@@ -2,7 +2,7 @@
 #[cfg(test)]
 mod tests {
     use anyhow::Result;
-    use clash_verge_service_ipc::{IPC_PATH, IpcCommand, run_ipc_server, stop_ipc_server};
+    use celestial_service_ipc::{IPC_PATH, IpcCommand, run_ipc_server, stop_ipc_server};
     use kode_bridge::IpcHttpClient;
     use serial_test::serial;
     #[cfg(unix)]
@@ -41,9 +41,9 @@ mod tests {
         {
             use platform_lib::{S_IRGRP, S_IRUSR, S_IWGRP, S_IWUSR};
 
-            let owner_perm = u32::from(S_IRUSR | S_IWUSR); // 用户权限 (rwx------ = 600)
-            let group_perm = u32::from(S_IRGRP | S_IWGRP); // 组权限   (---rwx--- = 060)
-            let full_mask = owner_perm | group_perm; // 完整权限掩码 (rwxrwxrwx = 660)
+            let owner_perm = u32::from(S_IRUSR | S_IWUSR); // з”Ёж€·жќѓй™ђ (rwx------ = 600)
+            let group_perm = u32::from(S_IRGRP | S_IWGRP); // з»„жќѓй™ђ   (---rwx--- = 060)
+            let full_mask = owner_perm | group_perm; // е®Њж•ґжќѓй™ђжЋ©з Ѓ (rwxrwxrwx = 660)
 
             let actual_perms = permissions.mode() & full_mask;
 
@@ -59,9 +59,9 @@ mod tests {
         {
             use platform_lib::{S_IRGRP, S_IRUSR, S_IWGRP, S_IWUSR};
 
-            let owner_perm = S_IRUSR | S_IWUSR; // 用户权限 (rwx------ = 600)
-            let group_perm = S_IRGRP | S_IWGRP; // 组权限   (---rwx--- = 060)
-            let full_mask = owner_perm | group_perm; // 完整权限掩码 (rwxrwxrwx = 660)
+            let owner_perm = S_IRUSR | S_IWUSR; // з”Ёж€·жќѓй™ђ (rwx------ = 600)
+            let group_perm = S_IRGRP | S_IWGRP; // з»„жќѓй™ђ   (---rwx--- = 060)
+            let full_mask = owner_perm | group_perm; // е®Њж•ґжќѓй™ђжЋ©з Ѓ (rwxrwxrwx = 660)
 
             let actual_perms = permissions.mode() & full_mask;
 

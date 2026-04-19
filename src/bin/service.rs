@@ -1,9 +1,9 @@
-//! Clash Verge Service - Cross-platform IPC service daemon
+//! Celestial Service - Cross-platform IPC service daemon
 //!
 //! This service can run as a standalone process or as a Windows service.
 //! It listens for shutdown signals (Ctrl+C, SIGTERM, or service stop) to gracefully terminate.
 
-use clash_verge_service_ipc::{run_ipc_server, stop_ipc_server};
+use celestial_service_ipc::{run_ipc_server, stop_ipc_server};
 use kode_bridge::KodeBridgeError;
 use std::path::PathBuf;
 use tracing::{Level, info, warn};
@@ -40,7 +40,7 @@ async fn main() -> Result<(), KodeBridgeError> {
 #[cfg(windows)]
 fn main() -> Result<()> {
     init_logger();
-    if service_dispatcher::start("clash_verge_service", ffi_service_main).is_err() {
+    if service_dispatcher::start("celestial_service", ffi_service_main).is_err() {
         info!("Not running as a service, starting in standalone mode.");
         let rt = tokio::runtime::Runtime::new()?;
         rt.block_on(run_standalone())?;
@@ -77,7 +77,7 @@ fn run_service() -> platform_lib::Result<()> {
         }
     };
 
-    let status_handle = service_control_handler::register("clash_verge_service", event_handler)?;
+    let status_handle = service_control_handler::register("celestial_service", event_handler)?;
 
     status_handle.set_service_status(ServiceStatus {
         service_type: ServiceType::OWN_PROCESS,
@@ -132,7 +132,7 @@ fn init_logger() {
 
 async fn run_standalone() -> Result<(), KodeBridgeError> {
     let pid = std::process::id();
-    info!("Clash Verge Service - Standalone Mode");
+    info!("Celestial Service - Standalone Mode");
     info!("Current process PID: {}", pid);
 
     let _pid_lock = acquire_pid_lock(pid);
@@ -155,11 +155,11 @@ async fn run_standalone() -> Result<(), KodeBridgeError> {
 fn pid_file_path() -> PathBuf {
     #[cfg(unix)]
     {
-        PathBuf::from("/tmp/verge/clash-verge-service.pid")
+        PathBuf::from("/tmp/verge/celestial-service.pid")
     }
     #[cfg(windows)]
     {
-        std::env::temp_dir().join("clash-verge-service.pid")
+        std::env::temp_dir().join("celestial-service.pid")
     }
 }
 
@@ -195,10 +195,10 @@ fn acquire_pid_lock(pid: u32) -> Option<PidLockGuard> {
     }
 }
 
-fn is_process_alive(pid: u32) -> bool {
+fn is_process_alive(_pid: u32) -> bool {
     #[cfg(unix)]
     {
-        unsafe { platform_lib::kill(pid as i32, 0) == 0 }
+        unsafe { platform_lib::kill(_pid as i32, 0) == 0 }
     }
     #[cfg(windows)]
     {

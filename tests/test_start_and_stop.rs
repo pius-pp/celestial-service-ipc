@@ -2,7 +2,7 @@
 #[cfg(test)]
 mod tests {
     use anyhow::Result;
-    use clash_verge_service_ipc::{IPC_PATH, IpcCommand, run_ipc_server, stop_ipc_server};
+    use celestial_service_ipc::{IPC_PATH, IpcCommand, run_ipc_server, stop_ipc_server};
     use kode_bridge::IpcHttpClient;
     use serial_test::serial;
     use tracing::debug;
@@ -85,8 +85,6 @@ mod tests {
             assert!(connect_ipc().await.is_ok(), "Should connect after starting");
 
             stop_ipc_server().await.unwrap();
-
-            // 等待 server 完全退出
             let res = handle.await.unwrap();
             assert!(res.is_ok(), "server should exit cleanly");
         }
